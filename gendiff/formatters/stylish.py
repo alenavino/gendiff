@@ -1,3 +1,6 @@
+from gendiff.const import DIFF_CHANGES_TYPES
+
+
 def formatted_data(data):
     match data:
         case False:
@@ -28,7 +31,7 @@ def make_tree(data, depth, indent='    '):
     return result
 
 
-def stylish(tree):
+def make_stylish(diff):
     result = ['{\n']
     depth = 0
     indent = '    '
@@ -42,16 +45,16 @@ def stylish(tree):
             value_1file = value.get('value_1')
             value_2file = value.get('value_2')
             match status:
-                case 'added':
+                case DIFF_CHANGES_TYPES.ADDED:
                     result.append(f'{indent * depth}{indent_add}{key}: ')
                     result.extend(make_tree(value_file, depth))
-                case 'deleted':
+                case DIFF_CHANGES_TYPES.DELETED:
                     result.append(f'{indent * depth}{indent_del}{key}: ')
                     result.extend(make_tree(value_file, depth))
-                case 'unchanged':
+                case DIFF_CHANGES_TYPES.UNCHANGED:
                     result.append(f'{indent * depth}{indent}{key}: ')
                     result.extend(make_tree(value_file, depth))
-                case 'changed':
+                case DIFF_CHANGES_TYPES.CHANGED:
                     result.append(f'{indent * depth}{indent_del}{key}: ')
                     result.extend(make_tree(value_1file, depth))
                     result.append(f'{indent * depth}{indent_add}{key}: ')
@@ -63,6 +66,6 @@ def stylish(tree):
                     depth -= 1
                     result.append(f'{indent * depth}{indent}}}\n')
         return result
-    make_result(tree, depth)
+    make_result(diff, depth)
     result.append(f'{indent * depth}}}\n')
     return ''.join(result)
