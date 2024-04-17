@@ -27,8 +27,9 @@ def make_plain(diff):
         for key, value in data.items():
             status = value.get('status')
             value_file = value.get('value')
-            value_1file = value.get('value_1')
-            value_2file = value.get('value_2')
+            old_value_file = value.get('old_value')
+            new_value_file = value.get('new_value')
+            children = value.get('children')
             match status:
                 case DIFF_CHANGES_TYPES.ADDED:
                     path.append(key)
@@ -42,14 +43,14 @@ def make_plain(diff):
                 case DIFF_CHANGES_TYPES.CHANGED:
                     path.append(key)
                     result.append(f"Property '{make_key(path)}' was updated. ")
-                    result.append(f"From {formatted_data(value_1file)} ")
-                    result.append(f"to {formatted_data(value_2file)}\n")
+                    result.append(f"From {formatted_data(old_value_file)} ")
+                    result.append(f"to {formatted_data(new_value_file)}\n")
                     path.pop()
                 case DIFF_CHANGES_TYPES.UNCHANGED:
                     continue
                 case DIFF_CHANGES_TYPES.NESTED:
                     path.append(key)
-                    _ = make(value_file, path)
+                    _ = make(children, path)
                     path.pop()
     make(diff, path)
     return "".join(result)[:-1]

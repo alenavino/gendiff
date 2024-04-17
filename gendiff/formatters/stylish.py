@@ -42,8 +42,9 @@ def make_stylish(diff):
         for key, value in data.items():
             status = value.get('status')
             value_file = value.get('value')
-            value_1file = value.get('value_1')
-            value_2file = value.get('value_2')
+            old_value_file = value.get('old_value')
+            new_value_file = value.get('new_value')
+            children = value.get('children')
             match status:
                 case DIFF_CHANGES_TYPES.ADDED:
                     result.append(f'{indent * depth}{indent_add}{key}: ')
@@ -56,16 +57,16 @@ def make_stylish(diff):
                     result.extend(make_tree(value_file, depth))
                 case DIFF_CHANGES_TYPES.CHANGED:
                     result.append(f'{indent * depth}{indent_del}{key}: ')
-                    result.extend(make_tree(value_1file, depth))
+                    result.extend(make_tree(old_value_file, depth))
                     result.append(f'{indent * depth}{indent_add}{key}: ')
-                    result.extend(make_tree(value_2file, depth))
+                    result.extend(make_tree(new_value_file, depth))
                 case _:
                     result.append(f'{indent * depth}{indent}{key}: {{\n')
                     depth += 1
-                    _ = make_result(value_file, depth)
+                    _ = make_result(children, depth)
                     depth -= 1
                     result.append(f'{indent * depth}{indent}}}\n')
         return result
     make_result(diff, depth)
     result.append(f'{indent * depth}}}\n')
-    return ''.join(result)
+    return ''.join(result)[:-1]

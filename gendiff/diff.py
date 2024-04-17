@@ -32,15 +32,15 @@ def diff(file1, file2):
             ):
                 result_dict[key] = {
                     'status': DIFF_CHANGES_TYPES.CHANGED,
-                    'value_1': dict1[key],
-                    'value_2': dict2[key]
+                    'old_value': dict1[key],
+                    'new_value': dict2[key]
                 }
             else:
                 result_dict[key] = {
                     'status': DIFF_CHANGES_TYPES.NESTED,
-                    'value': {}
+                    'children': {}
                 }
                 _ = make_dict(
-                    dict1[key], dict2[key], result_dict[key]['value'])
+                    dict1[key], dict2[key], result_dict[key]['children'])
     make_dict(file_1, file_2, result_dict)
     return result_dict
