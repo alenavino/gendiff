@@ -3,10 +3,11 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/a962a977d798bffa6438/maintainability)](https://codeclimate.com/github/alenavino/python-project-50/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/a962a977d798bffa6438/test_coverage)](https://codeclimate.com/github/alenavino/python-project-50/test_coverage)
 ### Difference Calculator
-Вычислитель отличий – программа, которая определяет разницу между двумя структурами данных.
-### Возможности утилиты:
-Поддержка разных входных форматов: yaml, json
-Генерация отчета в виде plain text, stylish и json
+A difference calculator is a program that determines the difference between two data structures.
+### Utility features:
+Support different input formats: yaml, json
+Generating a report in the form of plain text, stylish и json
+
 ![Снимок экрана от 2024-04-18 14-55-32](https://github.com/alenavino/python-project-50/assets/112634093/4f1a828d-271b-42ed-8efa-70ff8882f1cc)
 ### Examples of using:
 [![asciicast](https://asciinema.org/a/hgdcWwriOSyXbh1VGOn74P6D6.svg)](https://asciinema.org/a/hgdcWwriOSyXbh1VGOn74P6D6)
