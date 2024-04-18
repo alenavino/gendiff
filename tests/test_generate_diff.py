@@ -3,27 +3,26 @@ from gendiff.generate_diff import generate_diff
 from gendiff.const import STYLE_FORMATS
 
 
-file1 = 'tests/fixtures/file1.json'
-file2 = 'tests/fixtures/file2.json'
+file1_json = 'tests/fixtures/file1.json'
+file2_json = 'tests/fixtures/file2.json'
+file1_yml = 'tests/fixtures/file1.yml'
+file2_yml = 'tests/fixtures/file2.yml'
 result_stylish = 'tests/fixtures/result_stylish.txt'
-file3 = 'tests/fixtures/file1.yml'
-file4 = 'tests/fixtures/file2.yml'
-file5 = 'tests/fixtures/file1_nested.yml'
-file6 = 'tests/fixtures/file2_nested.yml'
-result_nested_stylish = 'tests/fixtures/result_nested_stylish.txt'
-result_nested_plain = 'tests/fixtures/result_nested_plain.txt'
-result_nested_json = 'tests/fixtures/result_nested_json.txt'
+result_plain = 'tests/fixtures/result_plain.txt'
+result_json = 'tests/fixtures/result_json.txt'
 
 
-@pytest.mark.parametrize('file1, file2, expected, format_name',
-                         [(file1, file2, result_stylish, STYLE_FORMATS.STYLISH),
-                          (file3, file4, result_stylish, STYLE_FORMATS.STYLISH),
-                          (file5, file6, result_nested_stylish,
-                           STYLE_FORMATS.STYLISH),
-                          (file5, file6, result_nested_plain,
-                           STYLE_FORMATS.PLAIN),
-                          (file5, file6, result_nested_json,
-                           STYLE_FORMATS.JSON)])
-def test_generate_diff(file1, file2, expected, format_name):
-    with open(expected) as f:
-        assert generate_diff(file1, file2, format_name) == f.read()
+@pytest.mark.parametrize('file1, file2',
+                         [(file1_json, file2_json),
+                          (file1_yml, file2_yml),
+                          (file1_json, file2_yml),
+                          (file1_yml, file2_json)])
+def test_generate_diff(file1, file2):
+    with open(result_stylish) as f:
+        assert generate_diff(file1, file2, STYLE_FORMATS.STYLISH) == f.read()
+    with open(result_stylish) as f:
+        assert generate_diff(file1, file2) == f.read()
+    with open(result_plain) as f:
+        assert generate_diff(file1, file2, STYLE_FORMATS.PLAIN) == f.read()
+    with open(result_json) as f:
+        assert generate_diff(file1, file2, STYLE_FORMATS.JSON) == f.read()
