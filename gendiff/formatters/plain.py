@@ -12,6 +12,8 @@ def formatted_data(data):
         case _:
             if isinstance(data, dict):
                 return '[complex value]'
+            elif isinstance(data, int):
+                return data
             else:
                 return f"'{data}'"
 
