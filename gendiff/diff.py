@@ -2,7 +2,7 @@ from gendiff.parse_files import parse_files
 from gendiff.const import DIFF_CHANGES_TYPES
 
 
-def make_dict(dict1, dict2, result_dict):
+def make_dict(dict1, dict2, result_dict={}):
     keys = sorted(set(dict1) | set(dict2))
     for key in keys:
         result_dict[key] = {}
@@ -33,16 +33,12 @@ def make_dict(dict1, dict2, result_dict):
         else:
             result_dict[key] = {
                 'status': DIFF_CHANGES_TYPES.NESTED,
-                'children': {}
+                'children': make_dict(dict1[key], dict2[key], result_dict[key])
             }
-            _ = make_dict(
-                dict1[key], dict2[key], result_dict[key]['children'])
     return result_dict
 
 
 def diff(file1, file2):
-    file_1 = parse_files(file1)
-    file_2 = parse_files(file2)
-    result_dict = {}
-    make_dict(file_1, file_2, result_dict)
-    return result_dict
+    data1 = parse_files(file1)
+    data2 = parse_files(file2)
+    return make_dict(data1, data2)

@@ -7,6 +7,8 @@ def parse_files(file):
     with open(file) as f:
         if file.endswith('json'):
             data = json.load(f)
-        else:
+        elif file.endswith('yml') or file.endswith('yaml'):
             data = yaml.load(f, Loader=SafeLoader)
+        else:
+            raise ValueError('Invalid file format!')
     return data

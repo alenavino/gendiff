@@ -1,11 +1,10 @@
 from gendiff.const import DIFF_CHANGES_TYPES
+from gendiff.const import INDENTS_FORMATS
 
 
 def formatted_data(data):
     match data:
-        case False:
-            return str(data).lower()
-        case True:
+        case False | True:
             return str(data).lower()
         case None:
             return 'null'
@@ -33,12 +32,11 @@ def make_tree(data, depth, indent='    '):
 
 def make_stylish(diff):
     result = ['{\n']
-    depth = 0
-    indent = '    '
-    indent_add = '  + '
-    indent_del = '  - '
+    indent = INDENTS_FORMATS.INDENT
+    indent_add = INDENTS_FORMATS.INDENT_ADD
+    indent_del = INDENTS_FORMATS.INDENT_DEL
 
-    def make_result(data, depth):
+    def make_result(data, depth=0):
         for key, value in data.items():
             status = value.get('status')
             value_file = value.get('value')
@@ -67,6 +65,6 @@ def make_stylish(diff):
                     depth -= 1
                     result.append(f'{indent * depth}{indent}}}\n')
         return result
-    make_result(diff, depth)
-    result.append(f'{indent * depth}}}\n')
-    return ''.join(result)[:-1]
+    make_result(diff)
+    result.append('}')
+    return ''.join(result)
