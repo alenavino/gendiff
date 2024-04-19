@@ -3,9 +3,7 @@ from gendiff.const import DIFF_CHANGES_TYPES
 
 def formatted_data(data):
     match data:
-        case False:
-            return str(data).lower()
-        case True:
+        case False | True:
             return str(data).lower()
         case None:
             return 'null'
